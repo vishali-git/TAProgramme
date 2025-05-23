@@ -11,10 +11,16 @@ public class Program
 
         Console.WriteLine("Hello, World!");
 
+        // Initialize ChromeOptions and set preferences
+        ChromeOptions options = new ChromeOptions();
+        options.AddUserProfilePreference("profile.password_manager_leak_detection", false);
+
+        
+
         //open chrome browser 
 
 
-        IWebDriver driver = new ChromeDriver();
+        IWebDriver driver = new ChromeDriver(options);
         
 
         //Login Page object initialization and definition
