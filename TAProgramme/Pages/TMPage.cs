@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using NUnit.Framework;
+using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,13 +11,20 @@ namespace TAProgramme.Pages
 {
     public class TMPage
     {
-        public void CreateTimeRecord(IWebDriver driver) 
+        public void CreateTimeRecord(IWebDriver driver)
         {
-            //Click on Create New Button 
+            try
+            {
+                //Click on Create New Button 
 
-            IWebElement createNewButton = driver.FindElement(By.XPath("//*[@id=\"container\"]/p/a"));
+                IWebElement createNewButton = driver.FindElement(By.XPath("//*[@id=\"container\"]/p/a"));
 
-            createNewButton.Click();
+                createNewButton.Click();
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail("Create New button hasn't been found: " + ex.Message);
+            }
 
 
 
@@ -27,23 +35,15 @@ namespace TAProgramme.Pages
             typeCodeDropdown.Click();
 
 
-
+            Thread.Sleep(2000);
             IWebElement timeOption = driver.FindElement(By.XPath("//*[@id=\"TypeCode_listbox\"]/li[2]"));
 
             timeOption.Click();
 
-           
-
-
-
-
-
-
-
-            //Type code into Code textbox 
+           //Type code into Code textbox 
 
             IWebElement codeTextbox = driver.FindElement(By.Id("Code"));
-
+                
             codeTextbox.SendKeys("TA Programme");
 
 
@@ -92,27 +92,20 @@ namespace TAProgramme.Pages
 
             IWebElement newCode = driver.FindElement(By.XPath("//*[@id=\"tmsGrid\"]/div[3]/table/tbody/tr[last()]/td[1]"));
 
+            Assert.That(newCode.Text == "TA Programme", "New time record has not been created!");
+            // if (newCode.Text == "TA Programme")
 
+            //{
 
+            //    Assert.Pass("Time record created successfully!");
+            // }
 
+            //else
 
-            if (newCode.Text == "TA Programme")
+            //{
 
-            {
-
-                Console.WriteLine("Time record created successfully!");
-
-
-
-            }
-
-            else
-
-            {
-
-                Console.WriteLine("Time record has not created");
-
-            }
+            //    Assert.Fail("Time record has not created");
+            //}
         }
         public void EditTimeRecord(IWebDriver driver)
         {
